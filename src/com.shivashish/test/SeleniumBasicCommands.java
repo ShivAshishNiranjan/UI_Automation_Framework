@@ -1,3 +1,5 @@
+package com.shivashish.test.java;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 //comment the above line and uncomment below line to use Chrome

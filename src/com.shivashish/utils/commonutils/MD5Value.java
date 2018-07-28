@@ -1,4 +1,4 @@
-package utils.commonUtils;
+package com.shivashish.utils.commonutils;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

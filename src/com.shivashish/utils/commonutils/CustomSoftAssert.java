@@ -1,4 +1,4 @@
-package utils.commonUtils;
+package com.shivashish.utils.commonutils;
 
 import org.testng.asserts.Assertion;
 import org.testng.asserts.IAssert;

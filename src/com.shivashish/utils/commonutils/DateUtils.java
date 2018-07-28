@@ -1,7 +1,4 @@
-package utils.commonUtils;
-
-import com.sirionlabs.config.ConfigureConstantFields;
-
+package com.shivashish.utils.commonutils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,13 +57,7 @@ public class DateUtils {
 		return dateFormat.format(date);
 	}
 
-	public static String getDateFromEpoch(long epoch) {
-		return getDateFromEpoch(epoch, ConfigureConstantFields.getConstantFieldsProperty("DefaultDateFormat"));
-	}
 
-	public static String convertDateToDDMMYYYY(String origDate) throws ParseException {
-		return convertDateToDDMMYYYY(origDate, ConfigureConstantFields.getConstantFieldsProperty("DefaultDateFormat"));
-	}
 
 	public static String convertDateToDDMMYYYY(String origDate, String currentFormat) throws ParseException {
 		if (!currentFormat.equalsIgnoreCase("dd-MM-yyyy") && !currentFormat.equalsIgnoreCase("dd/MM/yyyy")
@@ -77,10 +68,6 @@ public class DateUtils {
 			return outputDateFormat.format(date);
 		}
 		return origDate;
-	}
-
-	public static String convertDateToMMDDYYYY(String origDate) throws ParseException {
-		return convertDateToMMDDYYYY(origDate, ConfigureConstantFields.getConstantFieldsProperty("DefaultDateFormat"));
 	}
 
 	public static String convertDateToMMDDYYYY(String origDate, String currentFormat) throws ParseException {
@@ -196,9 +183,6 @@ public class DateUtils {
 		return nextDate;
 	}
 
-	public static String getDateOfXDaysFromYDate(String yDate, int xDays) throws ParseException {
-		return getDateOfXDaysFromYDate(yDate, xDays, ConfigureConstantFields.getConstantFieldsProperty("DefaultDateFormat"));
-	}
 
 	public static String getDateOfXDaysFromYDate(String yDate, int xDays, String currentFormat) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(currentFormat);
@@ -212,32 +196,6 @@ public class DateUtils {
 		return xDate;
 	}
 
-	public static boolean isDateWithinRange(String currentDate, String lowerDate, String upperDate, String currentFormat) throws ParseException {
-		boolean withinRange = false;
-
-		//****************************************
-		//Code added by gaurav bhadani
-//		String dateformat = DateUtils.getDateFormat(lowerDate);
-		//currentDate = DateUtils.convertDateToAnyFormat(currentDate,currentFormat);
-		//****************************************
-		//
-		if (currentDate.equalsIgnoreCase(lowerDate) || currentDate.equalsIgnoreCase(upperDate))
-			withinRange = true;
-
-		else {
-			if (currentFormat == null || currentFormat.equalsIgnoreCase(""))
-				currentFormat = ConfigureConstantFields.getConstantFieldsProperty("DefaultDateFormat");
-
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(currentFormat);
-			Date curDate = simpleDateFormat.parse(currentDate);
-			Date fromDate = simpleDateFormat.parse(lowerDate);
-			Date toDate = simpleDateFormat.parse(upperDate);
-
-			if (!curDate.before(fromDate) && !curDate.after(toDate))
-				withinRange = true;
-		}
-		return withinRange;
-	}
 
 	public static String getMonthStartDateInMMDDFormat(int month) {
 		String monthStartDate[] = {

@@ -1,19 +1,36 @@
-package com.shivashish.test.java;
+package com.shivashish.test;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //comment the above line and uncomment below line to use Chrome
 //import org.openqa.selenium.chrome.ChromeDriver;
 public class SeleniumBasicCommands  {
 
 
 	public static void main(String[] args) {
+
+
+		Logger logger = LoggerFactory.getLogger(SeleniumBasicCommands.class);
 		// declaration and instantiation of objects/variables
 		//System.setProperty("webdriver.gecko.driver","/home/shivashish/Desktop/MyGitRepo/UI_Automation_Framework/src/main/resources/GekoDriver/geckodriver");
+		String os = System.getProperty("os.name").toLowerCase();
+
+
+		if(os.contains("mac"))
+		{
+			System.setProperty("webdriver.gecko.driver",System.getProperty("user.dir")+"/src/resources/GekoDriver/Mac/geckodriver");
+
+		}
+		if(os.contains("firefox"))
+		{
+			System.setProperty("webdriver.gecko.driver",System.getProperty("user.dir")+"/src/resources/GekoDriver/Linux/geckodriver");
+
+		}
+
 		WebDriver driver = new FirefoxDriver();
-		//comment the above 2 lines and uncomment below 2 lines to use Chrome
-		//System.setProperty("webdriver.chrome.driver","G:\\chromedriver.exe");
-		//WebDriver driver = new ChromeDriver();
+
 
 		String baseUrl = "http://demo.guru99.com/test/newtours/";
 		String expectedTitle = "Welcome: Mercury Tours";
@@ -35,7 +52,7 @@ public class SeleniumBasicCommands  {
 			System.out.println("Test Failed");
 		}
 
-		//close Fire fox
+		//close Firefox
 		driver.close();
 
 	}

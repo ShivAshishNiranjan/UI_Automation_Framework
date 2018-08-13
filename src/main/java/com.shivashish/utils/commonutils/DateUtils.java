@@ -41,6 +41,12 @@ public class DateUtils {
 		return dateFormat.format(date);
 	}
 
+	public static String getCurrentDateIndd_MM_YYYY_HH_mm_ss() {
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
+
 	public static String getCurrentDateInDDMMMYYYY() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy");
 		Date date = new Date();
@@ -82,10 +88,10 @@ public class DateUtils {
 	}
 
 	public static String convertDateToAnyFormat(String origDate, String requiredFormat) throws ParseException {
-		return converDateToAnyFormat(origDate, null, requiredFormat);
+		return convertDateToAnyFormat(origDate, null, requiredFormat);
 	}
 
-	public static String converDateToAnyFormat(String origDate, String currentFormat, String requiredFormat) throws ParseException {
+	public static String convertDateToAnyFormat(String origDate, String currentFormat, String requiredFormat) throws ParseException {
 		if (currentFormat == null)
 			currentFormat = DateUtils.getDateFormat(origDate);
 

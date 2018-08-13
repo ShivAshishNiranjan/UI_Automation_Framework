@@ -21,7 +21,7 @@ public class InitializeDriver {
             System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/main/resources/GekoDriver/Mac/geckodriver");
 
         }
-        if (os.contains("firefox")) {
+        if (os.contains("linux")) {
             System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/main/resources/GekoDriver/Linux/geckodriver");
 
         }

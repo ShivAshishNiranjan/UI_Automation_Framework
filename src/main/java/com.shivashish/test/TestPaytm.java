@@ -32,8 +32,10 @@ public class TestPaytm {
 	@BeforeMethod
 	public void beforeMethod() {
 		logger.info("Inside Before Method");
-		if (driver == null)
+		if (driver == null) {
+			logger.error("Failed in Initializing Web Driver so skipping the test");
 			throw new SkipException("Failed in Initializing Web Driver so skipping the test");
+		}
 		softAssert = new SoftAssert();
 	}
 

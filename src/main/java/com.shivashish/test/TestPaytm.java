@@ -6,68 +6,68 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.SkipException;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 public class TestPaytm {
 
 
-    Logger logger = LoggerFactory.getLogger(TestPaytm.class);
-    WebDriver driver;
-    InitializeDriver initializeDriver;
-    Paytm paytm;
-    SoftAssert softAssert ;
+	Logger logger = LoggerFactory.getLogger(TestPaytm.class);
+	WebDriver driver;
+	InitializeDriver initializeDriver;
+	Paytm paytm;
+	SoftAssert softAssert;
 
 
-
-    @BeforeClass
-    public void beforeClass() {
-        logger.info("Inside Before Class");
-        initializeDriver = new InitializeDriver();
-        driver = initializeDriver.getDriver();
-        paytm = new Paytm(driver);
-    }
-
-
-    @BeforeMethod
-    public void beforeMethod() {
-        logger.info("Inside Before Method");
-        softAssert = new SoftAssert() ;
-    }
-
-    @Test
-    public void validateGoldPriceTabInPaytm() throws InterruptedException {
-        driver.get(paytm.getDigitalGoldPageUrl());
-        WebElement element = paytm.getGoldPriceElement();
-        if(element!=null) {
-            String goldprice = element.getText().split("₹")[1];
-            logger.info("goldPrice is : [{}] per gram", goldprice);
-        }
-        else
-        {
-            softAssert.assertTrue(false, "Not being able to get live digital " +
-                    "gold price from gold tab in Paytm");
-        }
-
-    }
+	@BeforeClass
+	public void beforeClass() {
+		logger.info("Inside Before Class");
+		initializeDriver = new InitializeDriver();
+		driver = initializeDriver.getDriver();
+		paytm = new Paytm(driver);
+	}
 
 
-    @AfterMethod
+	@BeforeMethod
+	public void beforeMethod() {
+		logger.info("Inside Before Method");
+		if (driver == null)
+			throw new SkipException("Failed in Initializing Web Driver so skipping the test");
+		softAssert = new SoftAssert();
+	}
 
-    public void afterMethod() {
-        logger.info("Inside After Method");
-        softAssert.assertAll();
-    }
+	@Test
+	public void validateGoldPriceTabInPaytm() throws InterruptedException {
+		driver.get(paytm.getDigitalGoldPageUrl());
+		WebElement element = paytm.getGoldPriceElement();
+		if (element != null) {
+			String goldprice = element.getText().split("₹")[1];
+			logger.info("goldPrice is : [{}] per gram", goldprice);
+		} else {
+			softAssert.assertTrue(false, "Not being able to get live digital " +
+					"gold price from gold tab in Paytm");
+		}
+
+	}
 
 
-    @AfterClass
+	@AfterMethod
 
-    public void afterClass() {
+	public void afterMethod() {
+		logger.info("Inside After Method");
+		softAssert.assertAll();
+	}
 
-        logger.info("Inside After Class");
-        driver.quit();
 
-    }
+	@AfterClass
+
+	public void afterClass() {
+
+		logger.info("Inside After Class");
+		driver.quit();
+
+	}
 
 
 }

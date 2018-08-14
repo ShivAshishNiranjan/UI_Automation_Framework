@@ -6,19 +6,15 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
-/**
- * Created by akshay.rohilla on 6/27/2017.
- */
+
 public class ConfigReader {
 
 	private final static Logger logger = LoggerFactory.getLogger(ConfigReader.class);
 
-	public static Map<String, String> ConfigReader(String filePath, String fileName, String delimiter) throws IOException {
+	public static Map<String, String> configReader(String filePath, String fileName, String delimiter) throws IOException {
 		Map<String, String> properties = new HashMap<String, String>();
 		BufferedReader reader = new BufferedReader(new FileReader(filePath + "//" + fileName));
 		String oneLine;
@@ -106,7 +102,6 @@ public class ConfigReader {
 		}
 		return sectionFound;
 	}
-
 
 	public static Map<String, String> getAllConstantProperties(String filePath, String fileName, String sectionName) throws ConfigurationException {
 		Map<String, String> allDefaultProperties = new LinkedHashMap<>();
@@ -220,6 +215,57 @@ public class ConfigReader {
 			propertyFound = true;
 
 		return propertyFound;
+	}
+
+
+	/**
+	 * This method is to update the config file according to the parameters provided <br />
+	 * It will work on the basis of the section name and without section name as well <br />
+	 * For updating with section name , the section name should be passed in the paremeter <br />
+	 * For updating without section name , null section should be passed <br />
+	 *
+	 * @param filePath             the file path of the config file
+	 * @param fileName             name of config file
+	 * @param sectionName          name of section
+	 * @param propertyName         name of property to be modified
+	 * @param updatedPropertyValue new value of the property
+	 * @throws ConfigurationException
+	 * @throws FileNotFoundException
+	 */
+	public static synchronized void updateValueInConfigFile(String filePath, String fileName, String sectionName, String propertyName, String updatedPropertyValue)
+			throws ConfigurationException, FileNotFoundException {
+		propertyName = propertyName.trim();
+		Configurations configs = new Configurations();
+
+		INIConfiguration config = configs.ini(filePath + "//" + fileName);
+		boolean isFileEdited = false;
+
+		if (sectionName != null && config.getProperty(sectionName.toLowerCase() + "." + propertyName.toLowerCase()) != null) {
+			//config.getSection(sectionName.toLowerCase()).clearProperty(propertyName.toLowerCase());
+			config.getSection(sectionName.toLowerCase()).setProperty(propertyName.toLowerCase(), updatedPropertyValue);
+			isFileEdited = true;
+
+		} else if (config.getProperty(propertyName.toLowerCase()) != null) {
+			for (Iterator<String> it = config.getKeys(); it.hasNext(); ) {
+				String key = it.next();
+				if (key.equalsIgnoreCase(propertyName)) {
+					config.setProperty(propertyName.toLowerCase(), updatedPropertyValue);
+					isFileEdited = true;
+				}
+			}
+		} else {
+			logger.warn("Either property name : [ {} ] or section name : [ {} ] doesn't exists, please check again.. ", propertyName, sectionName);
+		}
+
+		if (isFileEdited) {
+			try {
+				config.write(new FileWriter(filePath + "//" + fileName));
+			} catch (IOException e) {
+				logger.error("Got Exception while updating the config file : [ {} ], Cause : [ {} ], stacktrace : [ {} ]", filePath + "//" + fileName,
+						e.getMessage(), e.getStackTrace());
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

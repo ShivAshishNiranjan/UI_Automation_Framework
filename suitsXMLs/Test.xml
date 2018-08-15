@@ -2,6 +2,7 @@
 <suite name="Test Suit" verbose="1">
     <suite-files>
         <suite-file path="Configuration.xml"></suite-file>
-        <suite-file path="Paytm.xml"></suite-file>
+        <!--<suite-file path="Paytm.xml"></suite-file>-->
+        <suite-file path="Facebook.xml"></suite-file>
     </suite-files>
 </suite>

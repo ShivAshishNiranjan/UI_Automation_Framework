@@ -1,4 +1,4 @@
-package com.shivashish.pages;
+package com.shivashish.pages.paytm;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

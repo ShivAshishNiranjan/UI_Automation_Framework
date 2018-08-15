@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Facebook Suit" verbose="1" >
+
+    <test name="Facebook Test Cases" >
+        <classes>
+            <class name="com.shivashish.test.facebook.TestFacebook"/>
+        </classes>
+    </test>
+</suite>

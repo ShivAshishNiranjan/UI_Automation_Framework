@@ -3,7 +3,7 @@
 
     <test name="Paytm Test Cases" >
         <classes>
-            <class name="com.shivashish.test.TestPaytm"/>
+            <class name="com.shivashish.test.paytm.TestPaytm"/>
         </classes>
     </test>
 </suite>

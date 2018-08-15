@@ -1,7 +1,8 @@
-package com.shivashish.test;
+package com.shivashish.test.paytm;
 
 import com.shivashish.helper.InitializeDriver;
-import com.shivashish.pages.Paytm;
+import com.shivashish.pages.paytm.Paytm;
+import com.shivashish.test.ConfigureConstant;
 import com.shivashish.utils.commonutils.ConfigReader;
 import com.shivashish.utils.commonutils.DateUtils;
 import org.apache.commons.configuration2.ex.ConfigurationException;
@@ -30,25 +31,31 @@ public class TestPaytm {
 
     Double totalMoneySpent;
     Double totalGoldInGram;
+    boolean failedInConfigReading = false;
 
 
     @BeforeClass
-    public void beforeClass() throws ConfigurationException {
-        logger.info("Inside Before Class");
-        initializeDriver = new InitializeDriver(ConfigureConstant.getConstantFieldsValue("browser"));
-        driver = initializeDriver.getDriver();
-        paytm = new Paytm(driver);
+    public void beforeClass(){
+        try {
+            logger.info("Inside Before Class");
+            initializeDriver = new InitializeDriver(ConfigureConstant.getConstantFieldsValue("browser"));
+            driver = initializeDriver.getDriver();
+            paytm = new Paytm(driver);
 
-        dateUtils = new DateUtils();
-        dumpFilePath = System.getProperty("user.dir") + "/output";
-
-
-        totalMoneySpent = Double.parseDouble(ConfigReader.getValueFromConfigFile("src/main/resources/config", "paytmdigitalgold.cfg", "buying detail", "totalmoneyspent"));
-        totalGoldInGram = Double.parseDouble(ConfigReader.getValueFromConfigFile("src/main/resources/config", "paytmdigitalgold.cfg", "buying detail", "totalgoldingram"));
+            dateUtils = new DateUtils();
+            dumpFilePath = System.getProperty("user.dir") + "/output";
 
 
-        logger.debug("totalMoneySpent [{}]", totalMoneySpent);
-        logger.debug("totalGoldInGram [{}]", totalGoldInGram);
+            totalMoneySpent = Double.parseDouble(ConfigReader.getValueFromConfigFile("src/main/resources/config", "paytmdigitalgold.cfg", "buying detail", "totalmoneyspent"));
+            totalGoldInGram = Double.parseDouble(ConfigReader.getValueFromConfigFile("src/main/resources/config", "paytmdigitalgold.cfg", "buying detail", "totalgoldingram"));
+
+
+            logger.debug("totalMoneySpent [{}]", totalMoneySpent);
+            logger.debug("totalGoldInGram [{}]", totalGoldInGram);
+        } catch (Exception e) {
+            logger.error("Some Exception at Before Class Level : [{}]", e.getMessage());
+            failedInConfigReading = true;
+        }
 
 
     }
@@ -56,12 +63,16 @@ public class TestPaytm {
 
     @BeforeMethod
     public void beforeMethod() {
-        logger.info("Inside Before Method");
-        if (driver == null) {
-            logger.error("Failed in Initializing Web Driver so skipping the test");
-            throw new SkipException("Failed in Initializing Web Driver so skipping the test");
+        if (!failedInConfigReading) {
+            logger.info("Inside Before Method");
+            if (driver == null) {
+                logger.error("Failed in Initializing Web Driver so skipping the test");
+                throw new SkipException("Failed in Initializing Web Driver so skipping the test");
+            }
+            softAssert = new SoftAssert();
+        } else {
+            throw new SkipException("Skipping all the tests");
         }
-        softAssert = new SoftAssert();
     }
 
     void dumpPriceInTextFile(String price) {
@@ -95,7 +106,7 @@ public class TestPaytm {
 
         } else {
             softAssert.assertTrue(false, "Not being able to get live digital " +
-                    "gold buy price from gold tab in Paytm");
+                    "gold buy price from gold tab in FacebookHomePage");
         }
 
     }
@@ -121,7 +132,7 @@ public class TestPaytm {
 
             } else {
                 softAssert.assertTrue(false, "Not being able to get live digital " +
-                        "gold sell price from gold tab in Paytm");
+                        "gold sell price from gold tab in FacebookHomePage");
             }
         } else {
             softAssert.assertTrue(false, "");

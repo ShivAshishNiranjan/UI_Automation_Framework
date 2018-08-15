@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Paytm Suit" verbose="1" >
+
+    <test name="Paytm Test Cases" >
+        <classes>
+            <class name="com.shivashish.test.TestPaytm"/>
+        </classes>
+    </test>
+</suite>

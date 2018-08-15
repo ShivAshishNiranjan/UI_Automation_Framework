@@ -35,7 +35,7 @@ public class TestPaytm {
     @BeforeClass
     public void beforeClass() throws ConfigurationException {
         logger.info("Inside Before Class");
-        initializeDriver = new InitializeDriver();
+        initializeDriver = new InitializeDriver(ConfigureConstant.getConstantFieldsValue("browser"));
         driver = initializeDriver.getDriver();
         paytm = new Paytm(driver);
 

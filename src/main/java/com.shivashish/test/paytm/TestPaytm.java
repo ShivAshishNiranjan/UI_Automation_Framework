@@ -5,7 +5,6 @@ import com.shivashish.pages.paytm.Paytm;
 import com.shivashish.test.ConfigureConstant;
 import com.shivashish.utils.commonutils.ConfigReader;
 import com.shivashish.utils.commonutils.DateUtils;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -29,15 +28,21 @@ public class TestPaytm {
     String dumpFileName = "paytmDigitalGoldPriceTracker.txt";
     DateUtils dateUtils;
 
-    Double totalMoneySpent;
-    Double totalGoldInGram;
-    boolean failedInConfigReading = false;
+    private Double totalMoneySpent;
+    private Double totalGoldInGram;
+    private boolean failedInConfigReading = false;
+
+    private String configFilePath ;
+    private String configFileName ;
+
 
 
     @BeforeClass
     public void beforeClass(){
         try {
             logger.info("Inside Before Class");
+	        configFilePath =ConfigureConstant.getConfigFilesValue("paytmconfigFilePath");
+	        configFileName = ConfigureConstant.getConfigFilesValue("paytmconfigFileName");
             initializeDriver = new InitializeDriver(ConfigureConstant.getConstantFieldsValue("browser"));
             driver = initializeDriver.getDriver();
             paytm = new Paytm(driver);
@@ -46,8 +51,8 @@ public class TestPaytm {
             dumpFilePath = System.getProperty("user.dir") + "/output";
 
 
-            totalMoneySpent = Double.parseDouble(ConfigReader.getValueFromConfigFile("src/main/resources/config", "paytmdigitalgold.cfg", "buying detail", "totalmoneyspent"));
-            totalGoldInGram = Double.parseDouble(ConfigReader.getValueFromConfigFile("src/main/resources/config", "paytmdigitalgold.cfg", "buying detail", "totalgoldingram"));
+            totalMoneySpent = Double.parseDouble(ConfigReader.getValueFromConfigFile(configFilePath, configFileName, "buying detail", "totalmoneyspent"));
+            totalGoldInGram = Double.parseDouble(ConfigReader.getValueFromConfigFile(configFilePath, configFileName, "buying detail", "totalgoldingram"));
 
 
             logger.debug("totalMoneySpent [{}]", totalMoneySpent);

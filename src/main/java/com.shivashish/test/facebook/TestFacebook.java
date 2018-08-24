@@ -5,6 +5,8 @@ import com.shivashish.pages.facebook.FacebookHomePage;
 import com.shivashish.pages.facebook.FacebookLoginPage;
 import com.shivashish.test.ConfigureConstant;
 import com.shivashish.utils.commonutils.ConfigReader;
+import com.shivashish.utils.commonutils.SeleniumCommonFunctions;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,8 @@ public class TestFacebook {
 	public void beforeClass() {
 		try {
 			logger.info("Inside Before Class");
-			configFilePath = ConfigureConstant.getConfigFilesValue("paytmconfigFilePath");
-			configFileName = ConfigureConstant.getConfigFilesValue("paytmconfigFileName");
+			configFilePath = ConfigureConstant.getConfigFilesValue("facebookconfigFilePath");
+			configFileName = ConfigureConstant.getConfigFilesValue("facebookconfigFileName");
 			initializeDriver = new InitializeDriver(ConfigureConstant.getConstantFieldsValue("browser"));
 			driver = initializeDriver.getDriver();
 			facebookLoginPage = new FacebookLoginPage(driver);
@@ -79,10 +81,10 @@ public class TestFacebook {
 
 	}
 
-	@Test(dependsOnMethods = "TestLoginInFacebook")
+	//@Test(dependsOnMethods = "TestLoginInFacebook")
 	public void TestWishBirthdayOnFacebook() {
 
-		if (facebookHomePage.clickOnBirthDayRemider()) {
+		if (facebookHomePage.clickOnBirthDayReminder()) {
 			if (facebookHomePage.enterBirthMessage("Happy b'day :-)")) {
 
 				if (facebookHomePage.clickOnBirthdayPostButtons()) {
@@ -100,6 +102,24 @@ public class TestFacebook {
 
 
 	}
+
+    @Test(dependsOnMethods = "TestLoginInFacebook")
+    public void TestLikeAllPostInParticularGroup() {
+
+        String url = "https://www.facebook.com/lists/1760481440682823";
+        driver.get(url);
+        SeleniumCommonFunctions.waitForGiveTimeIntervalInSeconds(driver,100);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        int count = facebookHomePage.likeAllPost(driver);
+        if(count>0)
+        {
+            logger.info("Liked [{}] number of Post in this facebookGroup",count);
+        }
+
+    }
 
 
 	@AfterMethod

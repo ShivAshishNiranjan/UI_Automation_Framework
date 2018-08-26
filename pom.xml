@@ -51,6 +51,7 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.8</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -78,7 +79,6 @@
                             <value>true</value>
                         </property>
                     </systemProperties>
-
                     <properties>
                         <property>
                             <name>usedefaultlisteners</name>
@@ -89,7 +89,6 @@
                         <!--<parameter name="Environment" value="Rc"/>-->
                         <suiteXmlFile>suitsXMLs/Test.xml</suiteXmlFile>
                     </suiteXmlFiles>
-
                 </configuration>
             </plugin>
             <plugin>

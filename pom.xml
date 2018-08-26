@@ -82,13 +82,13 @@
                     <properties>
                         <property>
                             <name>usedefaultlisteners</name>
-                            <value>false</value>
-                        </property>
-                        <property>
-                            <name>listener</name>
-                            <value>org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter</value>
+                            <value>true</value>
                         </property>
                     </properties>
+                    <suiteXmlFiles>
+                        <!--<parameter name="Environment" value="Rc"/>-->
+                        <suiteXmlFile>suitsXMLs/Test.xml</suiteXmlFile>
+                    </suiteXmlFiles>
 
                 </configuration>
             </plugin>
@@ -102,6 +102,7 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
 
 

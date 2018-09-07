@@ -1,2 +1,2 @@
 # UI_Automation_Framework
-this is the repository of UI Automation Framework Using Java By Me 
+UI Automation Framework | Java | Selenium Webdriver | Data Driven Framework
